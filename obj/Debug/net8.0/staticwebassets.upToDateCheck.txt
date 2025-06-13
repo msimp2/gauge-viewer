@@ -1,4 +1,0 @@
-wwwroot\colorMap.js
-wwwroot\locations2.csv
-wwwroot\locationUtils.js
-wwwroot\index.html
