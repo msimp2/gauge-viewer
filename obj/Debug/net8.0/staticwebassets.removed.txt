@@ -1,0 +1,4 @@
+C:\Users\MichealSimpson\gaugeViewer\gaugeViewer\wwwroot\locations.js
+C:\Users\MichealSimpson\gaugeViewer\gaugeViewer\wwwroot\locations.txt
+C:\Users\MichealSimpson\gaugeViewer\gaugeViewer\wwwroot\mrms.tif
+C:\Users\MichealSimpson\gaugeViewer\gaugeViewer\wwwroot\plotMRMS.js
