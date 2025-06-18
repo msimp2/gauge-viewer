@@ -64,6 +64,10 @@
         }
     </style>
 
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
 </head>
 
 <body>
@@ -72,8 +76,8 @@
         <div id="map"></div>
         <div id="controls">
             <label>
-                <input type="checkbox" id="hideZerosCheckbox" />
-                Hide zeros
+                <input type="checkbox" id="hideZerosCheckbox">
+                Show Zeros
             </label>
         </div>
     </div>
@@ -121,7 +125,7 @@
         import { loadLocations, addLatitudeOffset } from './locationUtils.js';
         import { getColorForRainfall } from './colorMap.js';
 
-        const map = L.map('map').setView([34.511, -87.279], 10);
+        const map = L.map('map').setView([48, -110], 7);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
@@ -129,13 +133,15 @@
 
         const markers = []; // store all markers
 
-        function updateMarkerVisibility(hideZeros) {
-            markers.forEach(({ marker, data }) => {
-                const shouldHide = hideZeros && data.rainfall === 0;
-                if (shouldHide) {
-                    map.removeLayer(marker);
-                } else {
-                    marker.addTo(map);
+        function updateMarkerVisibility(showZeros) {
+            markers.forEach(marker => {
+                const rainfall = marker.options.rainfall;
+                if (rainfall === 0) {
+                    if (showZeros) {
+                        map.addLayer(marker);
+                    } else {
+                        map.removeLayer(marker);
+                    }
                 }
             });
         }
@@ -155,26 +161,27 @@
                         color: '#000',
                         weight: 1,
                         opacity: 1,
-                        fillOpacity: 0.9
+                        fillOpacity: 0.9,
+                        rainfall: loc.rainfall  // ✅ store rainfall directly in marker options
                     })
                         .bindPopup(popupContent)
                         .addTo(map);
 
-                    markers.push({ marker, data: loc });
+                    markers.push(marker); // ✅ push only the Leaflet marker
                 });
 
                 // Hook up checkbox event
+                // Run after DOM is ready
                 const checkbox = document.getElementById('hideZerosCheckbox');
+
+                updateMarkerVisibility(checkbox.checked); // Hide zeros initially
+
                 checkbox.addEventListener('change', () => {
                     updateMarkerVisibility(checkbox.checked);
                 });
             })
             .catch(err => console.error("Error loading locations:", err));
     </script>
-
-
-
-
 
 </body>
 </html>

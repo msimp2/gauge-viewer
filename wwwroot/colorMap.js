@@ -32,7 +32,7 @@ export const colors = [
 export function getColorForRainfall(rainfall) {
     for (let i = thresholds.length - 1; i >= 0; i--) {
         if (rainfall >= thresholds[i]) {
-            return colors[i + 1];
+            return colors[i];
         }
     }
     // If rainfall < smallest threshold
